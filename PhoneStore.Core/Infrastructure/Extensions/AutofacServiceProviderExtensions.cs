@@ -18,19 +18,24 @@ namespace PhoneStore.Core.Infrastructure.Extensions
 
         public static IServiceProvider ConfigureApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            List<string> addedAssemblyNames = new List<string>();
             List<Assembly> assemblies = new List<Assembly>();
             var containerBuilder = new ContainerBuilder();
 
-            foreach (string assemblyPath in Directory.GetFiles(System.AppDomain.CurrentDomain.BaseDirectory, "*.dll", SearchOption.AllDirectories))
-            {
-                var assembly = Assembly.LoadFile(assemblyPath);
-                if (assembly != null)
-                {
-                    assemblies.Add(assembly);
-                }
 
-            }
+            assemblies.Add(Assembly.Load("PhoneStore.Services"));
+            assemblies.Add(Assembly.Load("PhoneStore.Core"));
+            assemblies.Add(Assembly.Load("PhoneStore.Data"));
+            assemblies.Add(Assembly.Load("PhoneStore"));
+
+            //foreach (string assemblyPath in Directory.GetFiles(System.AppDomain.CurrentDomain.BaseDirectory, "*.dll", SearchOption.AllDirectories))
+            //{
+            //    var assembly = Assembly.LoadFile(assemblyPath);
+            //    if (assembly != null)
+            //    {
+            //        assemblies.Add(assembly);
+            //    }
+
+            //}
 
             var assignTypeFrom = typeof(IDependencyRegistrar);
             var result = new List<Type>();
