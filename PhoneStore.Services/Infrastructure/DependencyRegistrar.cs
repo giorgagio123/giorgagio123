@@ -20,8 +20,12 @@ namespace PhoneStore.Services.Infrastructure
 
         public void Register(ContainerBuilder builder, IServiceCollection services, IConfiguration configuration)
         {
+            if (configuration["ENVIRONMENT"].Contains("Production"))
+                builder.RegisterType<AzurePictureService>().As<IPictureService>().InstancePerLifetimeScope();
+            else
+                builder.RegisterType<PictureService>().As<IPictureService>().InstancePerLifetimeScope();
+
             builder.RegisterType<ProductService>().As<IProductService>().InstancePerLifetimeScope();
-            builder.RegisterType<AzurePictureService>().As<IPictureService>().InstancePerLifetimeScope();
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<AccountService>().As<IAccountService>().InstancePerLifetimeScope();
             builder.RegisterType<WebHelper>().AsSelf().SingleInstance();
