@@ -24,8 +24,8 @@ namespace PhoneStore.Core.Infrastructure.Extensions
 
             foreach (string assemblyPath in Directory.GetFiles(System.AppDomain.CurrentDomain.BaseDirectory, "*.dll", SearchOption.AllDirectories))
             {
-                var assembly = System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyPath);
-                if (assembly.FullName.ToLower().Contains("phone"))
+                var assembly = Assembly.LoadFile(assemblyPath);
+                if (assembly != null)
                 {
                     assemblies.Add(assembly);
                 }
