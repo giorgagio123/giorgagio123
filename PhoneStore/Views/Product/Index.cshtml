@@ -1,0 +1,42 @@
+﻿@model PagedProductViewModel
+
+@{
+    var prevDisabled = !Model.PagingFilterModel.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PagingFilterModel.HasNextPage ? "disabled" : "";
+}
+
+<div class="col-md-3">
+    <section class="panel">
+
+        @await Component.InvokeAsync("Filters")
+    </section>
+</div>
+<div class="col-md-9">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="row product-list">
+                @await Html.PartialAsync("_ProductList", Model)
+
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<section class="panel">
+    <div class="panel-body">
+        <a asp-action="Index" asp-route-PageNumber="@(Model.PagingFilterModel.PageIndex-1)" 
+asp-route-Storage="@(Model.PagingFilterModel.Storage)" 
+asp-route-Proccessor="@(Model.PagingFilterModel.Proccessor)"
+asp-route-OperatingSystem="@(Model.PagingFilterModel.OperatingSystem)"
+class="@prevDisabled">Previous</a>
+
+        <a asp-action="Index" asp-route-PageNumber="@(Model.PagingFilterModel.PageIndex+1)" 
+asp-route-Storage="@(Model.PagingFilterModel.Storage)" 
+asp-route-Proccessor="@(Model.PagingFilterModel.Proccessor)"
+asp-route-OperatingSystem="@(Model.PagingFilterModel.OperatingSystem)"
+asp-route-FromPrice="@(Model.PagingFilterModel.FromPrice)"
+asp-route-ToPrice="@(Model.PagingFilterModel.ToPrice)"
+class="@nextDisabled">Next</a>
+    </div>
+</section>

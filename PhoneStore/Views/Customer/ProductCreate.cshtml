@@ -1,0 +1,20 @@
+﻿@model ProductModel
+
+<form asp-controller="Customer" asp-action="ProductCreate" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            ProductAdd
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="ProductList">BackToList</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                <p>Save</p>
+            </button>
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>

@@ -1,0 +1,64 @@
+﻿@model ProductFilterViewModel
+
+<section class="panel">
+    <header class="panel-heading"> Filter </header>
+    <div class="panel-body">
+        <form asp-action="Index" asp-controller="Product" class="filter-form" method="get">
+            <div class="form-group">
+                <label>Name</label>
+                <input class="form-control hasCustomSelect" type="text" asp-for="Name" placeholder="Keyword Search">
+            </div>
+            <hr class="custom-hr" />
+            <div class="form-group">
+                <label>Proccessors</label>
+                <select asp-for="Processor" asp-items="@Model.Processors" class="form-control hasCustomSelect"></select>
+            </div>
+            <hr class="custom-hr" />
+            <div class="form-group">
+                <label>OperatingSystems</label>
+                <select asp-for="OperatingSystem" asp-items="@Model.OperatingSystems" class="form-control hasCustomSelect"></select>
+            </div>
+            <hr class="custom-hr" />
+            <div class="form-group">
+                <label>Storages</label>
+                <select asp-for="Storage" asp-items="@Model.Storages" class="form-control hasCustomSelect"></select>
+            </div>
+            <hr class="custom-hr" />
+            <div class="form-group">
+                <label>Prices</label>
+                <hr />
+                <h6>To Price</h6>
+                <input asp-for="ToPrice" class="form-control hasCustomSelect">
+                <h6>From Price</h6>
+                <input asp-for="FromPrice" class="form-control hasCustomSelect">
+
+            </div>
+
+            <button type="submit" class="search form-control" style="background-color:#ffae42">Search</button>
+        </form>
+    </div>
+</section>
+
+
+@*<script>
+    $(document).ready(function () {
+        $(".search").on("click", function () {
+            debugger;
+            var form = $(".filter-form");
+            var url = form.attr("action");
+            var data = form.serialize();
+
+            $.post(url, data, function (resp) {
+                if (resp.success) {
+                    $(".col-md-9").empty();
+                    $(".col-md-9").html(resp.view)
+
+                    const url = new URL(window.location);
+                    url.searchParams.set('PageNumber', '0');
+                    window.history.pushState({}, '', url);
+                }
+            });
+        });
+    });
+
+</script>*@

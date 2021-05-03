@@ -1,0 +1,37 @@
+﻿@model ProductModel
+<input type="hidden" asp-for="Id" />
+<form asp-controller="Customer" asp-action="ProductEdit" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Product - @Model.Name
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="ProductList">BackToList</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                <p>Save</p>
+            </button>
+            <span id="product-delete" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                <p>Delete</p>
+            </span>
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>
+
+<script>
+    $(document).ready(function () {
+        //search button
+        $('#product-delete').click(function () {
+            var url = "@Url.Action("DeleteProduct","Customer")";
+            var productId = $("#Id").val();
+            var data = { id: productId };
+
+            $.post(url, data);
+        });
+    });
+</script>

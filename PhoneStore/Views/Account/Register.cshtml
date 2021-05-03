@@ -1,0 +1,20 @@
+﻿@model PhoneStore.Models.Account.RegisterModel
+
+<form asp-controller="Account" asp-action="Register" method="post">
+    <div>
+        <input asp-for="UserName" class="text-regular" type="text" autofocus="autofocus" placeholder="UserName" id="login-email" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+
+    <div>
+        <input asp-for="Email" class="text-regular" type="text" autofocus="autofocus" placeholder="Email" id="login-email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div>
+        <input asp-for="Password" class="text-regular" type="text" autofocus="autofocus" placeholder="Password" id="login-email" />
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <button type="submit">Register</button>
+</form>

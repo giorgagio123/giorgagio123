@@ -1,0 +1,89 @@
+﻿@{
+    var defaultGridPageSize = 3;
+    var gridPageSizes = 5;
+}
+
+<div class="content-header clearfix">
+    <div class="pull-right">
+        <a asp-action="ProductCreate" class="group-create-btn btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            AddProduct
+        </a>
+    </div>
+    <div class="form-horizontal">
+        <div class="panel-body">
+            <a asp-action="LogList">Logs</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div id="product-grid"></div>
+
+        <script type="text/javascript">
+                        $(document).ready(function() {
+                            $("#product-grid").kendoGrid({
+                                dataSource: {
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("ProductList", "Customer"))",
+                                            type: "POST"
+                                        }
+                                    },
+                                    schema: {
+                                        data: function (resp) {
+                                            debugger;
+                                            var data = resp.data;
+                                            return data;
+                                        },
+                                        total: "total",
+                                        errors: "Errors"
+                                    },
+                                    error: function(e) {
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(defaultGridPageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(gridPageSizes)]
+                                },
+                                editable: {
+                                    confirmation: "Confirm",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [
+                                {
+                                    field: "name",
+                                    title: "ProductName"
+                                },{
+                                    field: "size",
+                                    title: "ProductSize"
+                                }, {
+                                    field: "screenresolution",
+                                    title: "ProductScreenResolution"
+                                },
+                                {
+                                    field: "processor",
+                                    title: "ProductProcessor"
+                                },  {
+                                    field: "id",
+                                    title: "Edit",
+                                    width: 100,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template: '<a class="btn btn-default" href="ProductEdit/#=id#"><i class="fa fa-pencil"></i>Edit</a>'
+                                    }
+                                ]
+                            });
+                        });
+        </script>
+    </div>
+</div>

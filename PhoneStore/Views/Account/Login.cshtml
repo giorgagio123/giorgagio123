@@ -1,0 +1,25 @@
+﻿@model PhoneStore.Models.Account.LoginModel
+@{
+    var returnUrl = Context.Request.Query["ReturnUrl"];
+}
+
+<form asp-controller="Account" asp-action="Login" method="post" asp-route-returnurl="@returnUrl">
+    <div>
+        <input asp-for="UserName" class="text-regular" type="text" autofocus="autofocus" placeholder="UserName" id="login-email" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+
+    <div>
+        <input asp-for="Password" class="text-regular" type="text" autofocus="autofocus" placeholder="USerName" id="login-email" />
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div>
+        <label asp-for="RememberMe"></label>
+        <input asp-for="RememberMe" />
+        <span asp-validation-for="RememberMe"></span>
+    </div>
+
+    <button type="submit">Login</button>
+</form>
+

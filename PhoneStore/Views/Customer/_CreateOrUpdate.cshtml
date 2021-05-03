@@ -1,0 +1,120 @@
+﻿@model ProductModel
+
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#product">Product</a></li>
+    <li><a data-toggle="tab" href="#picture">Picture</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="product" class="tab-pane fade in active">
+        <div class="form-group">
+            <div class="col-md-2">
+                <label asp-for="Name"></label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" asp-for="Name" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                <label asp-for="Size"></label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" asp-for="Size" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                <label asp-for="ScreenResolution"></label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" asp-for="ScreenResolution" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                <label asp-for="Processor"></label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" asp-for="Processor" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                <label asp-for="Storage"></label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" asp-for="Storage" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                <label asp-for="OperatingSystem"></label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" asp-for="OperatingSystem" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                <label asp-for="Price"></label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" asp-for="Price" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                <label asp-for="VideoLink"></label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" asp-for="VideoLink" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div id="picture" class="tab-pane fade">
+
+        <div class="product-images">
+            @foreach (var item in Model.PictureItems)
+            {
+                <div class="image-container" style="display: flex;align-items: baseline;justify-content: space-evenly;border: 1px solid;">
+                    <h1>@item.Name</h1>
+                    <div>
+                        <img style="max-height:100px" src="@item.Url" alt="Alternate Text" />
+                    </div>
+                    <a class="bg-danger delete-picture" href="@Url.Action("DeletePicture","Customer", new { id = item.Id})" style="height: 31px;width: 75px;padding: 7px 2px 0px 16px;">Delete</a>
+                </div>
+            }
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-3" style="display: flex;align-items: center;justify-content: flex-end;height: 205px;">
+
+                @Html.LabelFor(x => x.AddPictureModel.PictureIds)
+            </div>
+            <div class="col-md-9">
+
+                @Html.EditorFor(x => x.AddPictureModel.PictureIds)
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".product-images").on("click", "a.delete-picture", function (e) {
+            e.preventDefault();
+            debugger;
+            var a = $(this);
+            var url = a.attr('href');
+
+            $.post(url, function (resp) {
+                if (resp.success) {
+                    debugger;
+                    var xx = a.parent();
+                    a.parent('div').remove();
+                }
+            });
+        });
+    });
+</script>

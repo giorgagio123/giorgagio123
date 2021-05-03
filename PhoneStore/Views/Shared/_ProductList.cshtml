@@ -1,0 +1,21 @@
+﻿@model PagedProductViewModel
+
+@foreach (var product in Model.Products)
+{
+    <div class="col-md-4">
+        <section class="panel" style="border:2px solid green">
+            <div class="pro-img-box">
+                <img src="@product.PictureUrl" alt="" />
+            </div>
+
+            <div class="panel-body text-center">
+                <h4>
+                    <a asp-action="ProductDetails" asp-controller="Product" asp-route-id="@product.Id" class="pro-title">
+                        @product.Name
+                    </a>
+                </h4>
+                <p class="price">@product.Price</p>
+            </div>
+        </section>
+    </div>
+}

@@ -1,0 +1,61 @@
+﻿@model ProductDetailsViewModel
+
+<div class="col-md-5">
+    <div class="product-image" style="width:fit-content">
+        <div id="myCarousel-2" class="carousel slide">
+            <ol class="carousel-indicators">
+                @for (int i = 0; i < Model.PictureUrls.Count; i++)
+                {
+                    <li data-target="#myCarousel-2" data-slide-to="@i" class="@(i == 0 ? "active" : string.Empty)"></li>
+                }
+            </ol>
+            <div class="carousel-inner">
+                @for (int i = 0; i < Model.PictureUrls.Count; i++)
+                 {
+                    <div class="item @(i ==0 ? "active" : string.Empty) ">
+                        <img src="@Model.PictureUrls[i]" class="img-responsive" alt="" />
+                    </div>
+                 }
+            </div>
+            <a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
+            <a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <h2 class="name">
+        @Model.Name
+        <h3>
+            <small>Product by <a href="javascript:void(0);">Adeline</a></small>
+        </h3>
+    </h2>
+</div>
+<div class="col-md-12">
+    <h1>Product Specs</h1>
+    <div class="col-md-12" style="display: flex;
+    justify-content: space-around;">
+        <h2>
+            <small>Operating System</small> -  @Model.OperatingSystem
+        </h2>
+        <h2>
+            <small>Processor</small> -  @Model.Processor
+        </h2>
+        <h2>
+            <small>Screen Resolution</small> -  @Model.ScreenResolution
+        </h2>
+        <h2>
+            <small>Size</small> -  @Model.Size
+        </h2>
+        <h2>
+            <small>Storage</small> -  @Model.Storage
+        </h2>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin:auto">
+    <h1>Product Video</h1>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/P-uxPyF9Icg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+
+@*<iframe width="560" height="315" src="https://www.youtube.com/embed/P-uxPyF9Icg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>*@

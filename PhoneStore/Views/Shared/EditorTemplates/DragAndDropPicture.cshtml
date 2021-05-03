@@ -1,0 +1,128 @@
+﻿@model string
+@using System.Security.Cryptography;
+@{
+    var randomNumberBuffer = new byte[10];
+    new RNGCryptoServiceProvider().GetBytes(randomNumberBuffer);
+
+    //other variables
+    var random = new Random(BitConverter.ToInt32(randomNumberBuffer, 0)).Next(0, int.MaxValue); ;
+    var clientId = "picture" + random;
+}
+
+<div id="@(clientId + "value")">
+    <input type="hidden" asp-for="@Model" />
+</div>
+@*<div class="row">
+        <div class="col-md-12">
+            <div id="@(clientId + "image")" class="uploaded-image">
+                <img src="@(pictureService.GetPictureUrl(Model, pictureSize, true))" />
+            </div>
+        </div>
+    </div>*@
+<div class="row">
+    <div class="col-md-12">
+        @*fine uploader container*@
+        <div id="@clientId" class="dropzone upload-image-button pull-left margin-t-5">
+            <noscript>
+                <p>Please enable JavaScript to use file uploader.</p>
+            </noscript>
+            <img class="dropzone-image" src="@Url.Content("~/images/defaultDropZone.png")" alt="Alternate Text" />
+            <div class="dz-message" data-dz-message><span>Default</span></div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css">
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        const productId = $("#Id").val();
+        var deleteUrl = "@Url.Action("DeletePicture", "Customer")";
+
+        Dropzone.options.@(clientId) = {
+            paramName: "file", // The name that will be used to transfer the file
+            maxFilesize: 5, // MB
+            url: `@(Url.Content($"~/Picture/AsyncUpload"))/${productId}`,
+            addRemoveLinks: true,
+            init: function () {
+                this.on("success", function (file, response) {
+                    @*$("#@(clientId + "image")").append("<img src='" + response.imageUrl + "'/>");*@
+
+                    if ($("#@(clientId + "value") input").val() == 0) {
+                        $("#@(clientId + "value") input").val("");
+                    }
+
+                    if ($("#@(clientId + "value") input").val() == "") {
+                        $("#@(clientId + "value") input").val(response.pictureId);
+                    }
+                    else
+                    {
+                        $("#@(clientId + "value") input").val($("#@(clientId + "value") input").val() + "," + response.pictureId);
+                    }
+
+                    file.pictureId = response.pictureId;
+                    debugger;
+                    
+                    var imageItemHtml = `<div class="image-container" style="display: flex;align-items: baseline;justify-content: space-evenly;border: 1px solid;"><h1>${response.pictureName}</h1><div><img style="max-height:100px" src="${response.imageUrl}" alt="Alternate Text" /></div><a class="bg-danger delete-picture" href="${deleteUrl}/${response.pictureId}" style="height: 31px;width: 75px;padding: 7px 2px 0px 16px;">Delete</a></div>`;
+                    $(".product-images").append(imageItemHtml);
+                });
+
+                this.on('addedfile', function (file) {
+                    $(".dropzone-image").css("display", "none");
+                });
+
+                this.on('reset', function () {
+                    $(".dropzone-image").css("display", "block");
+                });
+
+                this.on("removedfile", function (file) {
+                    var splitedIds = $("#@(clientId + "value") input").val().split(",");
+
+                    var pictureIds = splitedIds.filter(function (e) { return e !== String(file.pictureId) });
+
+                    $("#@(clientId + "value") input").val(pictureIds.join());
+
+                    var url = '/Admin/Picture/DeletePicture';
+                    var data = {
+                        pictureId: file.pictureId
+                    };
+
+                    $.post(url, data);
+                });
+            }
+        };
+
+        $(".dz-remove").click(function () {
+            Dropzone.forElement("#@(clientId)").removeAllFiles(true);
+        });
+
+        $(".resetDragAndDrop").click(function () {
+            $(".dz-preview").remove();
+            $(".dropzone-image").css("display", "block");
+            $("#@(clientId + "value") input").val(0);
+        });
+    });
+</script>
+
+<style>
+    .dropzone-image {
+        display: block;
+        margin: 0 auto;
+        height: 100px;
+    }
+
+    .dropzone {
+        text-align: center;
+        min-width: 330px;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-style: dotted;
+        border-radius: 10px;
+        padding-bottom: 0px;
+    }
+
+    .dz-error-message {
+        margin-top: 15px;
+    }
+</style>

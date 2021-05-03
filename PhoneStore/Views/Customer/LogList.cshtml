@@ -1,0 +1,71 @@
+﻿@{
+    var defaultGridPageSize = 3;
+    var gridPageSizes = 5;
+}
+
+<style>
+    .k-master-row, table, k-grid-header {
+        width:400px !important;
+    }
+</style>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div id="product-grid"></div>
+
+        <script type="text/javascript">
+                        $(document).ready(function() {
+                            $("#product-grid").kendoGrid({
+                                dataSource: {
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("LogList", "Customer"))",
+                                            type: "POST"
+                                        }
+                                    },
+                                    schema: {
+                                        data: function (resp) {
+                                            debugger;
+                                            var data = resp.data;
+                                            return data;
+                                        },
+                                        total: "total",
+                                        errors: "Errors"
+                                    },
+                                    error: function(e) {
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(defaultGridPageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(gridPageSizes)]
+                                },
+                                editable: {
+                                    confirmation: "Confirm",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [
+                                {
+                                    field: "request",
+                                        title: "Request",
+                                    width:200
+                                },{
+                                    field: "response",
+                                    title: "Response"
+                                    },
+                                    {
+                                        field: "ipAddress",
+                                        title: "ip address"
+                                    }
+                                ]
+                            });
+                        });
+        </script>
+    </div>
+</div>
