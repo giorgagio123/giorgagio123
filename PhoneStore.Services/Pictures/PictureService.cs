@@ -92,10 +92,7 @@ namespace PhoneStore.Services.Pictures
         {
             if (picture == null)
                 throw new ArgumentNullException(nameof(picture));
-
-            //delete thumbs
-            //DeletePictureThumbs(picture);
-
+            
             var pictures = _pictureRepository.Table.Where(p => p.SeoFilename == picture.SeoFilename);
 
             if (pictures.Count() == 1)
@@ -143,16 +140,6 @@ namespace PhoneStore.Services.Pictures
             
             return picture;
         }
-
-        //public virtual string GetPictureUrl(int pictureId,
-        //    int targetSize = 0,
-        //    bool showDefaultPicture = true,
-        //    string storeLocation = null)
-        //{
-        //    var picture = GetPictureById(pictureId);
-
-        //    return GetPictureUrl(picture, targetSize, showDefaultPicture, storeLocation, defaultPictureType);
-        //}
 
         public virtual string GetDefaultPictureUrl(string storeLocation = null)
         {

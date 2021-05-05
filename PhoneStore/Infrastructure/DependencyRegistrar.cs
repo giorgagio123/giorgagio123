@@ -13,8 +13,6 @@ namespace PhoneStore.Infrastructure
 {
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public int Order => 1;
-
         public void Register(ContainerBuilder builder, IServiceCollection services, IConfiguration configuration)
         {
             builder.RegisterType<RouteProvider>().As<IRouteProvider>().SingleInstance();

@@ -13,8 +13,6 @@ namespace PhoneStore.Data.Infrastructure
 {
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public int Order => 10;
-
         public void Register(ContainerBuilder builder, IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnStr")));

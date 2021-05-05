@@ -19,8 +19,7 @@ namespace PhoneStore.Services.Pictures
     {
         private static CloudBlobContainer _container;
         private readonly IConfiguration _configuration;
-
-
+        
         public AzurePictureService(IRepository<Picture> pictureRepository, ApplicationDbContext context, IHostingEnvironment hostingEnvironment, IConfiguration configuration, WebHelper webHelper)
             : base(pictureRepository, context, hostingEnvironment, webHelper)
         {
@@ -49,7 +48,7 @@ namespace PhoneStore.Services.Pictures
 
         protected override async void DeletePictureOnFileSystem(Picture picture)
         {
-            await DeletePictureThumbsAsync(picture);
+            await DeletePictureAsync(picture);
         }
 
         protected override string GetPictureLocalPath(string thumbFileName)
@@ -59,20 +58,10 @@ namespace PhoneStore.Services.Pictures
 
         protected override async void SavePictureInFile(byte[] pictureBinary, string mimeType, string fileName)
         {
-            await SaveThumbAsync(fileName, mimeType, pictureBinary);
+            await SavePictureAsync(fileName, mimeType, pictureBinary);
         }
 
-        //protected override bool GeneratedThumbExists(string thumbFilePath, string thumbFileName)
-        //{
-        //    return GeneratedThumbExistsAsync(thumbFilePath, thumbFileName).Result;
-        //}
-
-        //protected override async void SaveThumb(string thumbFilePath, string thumbFileName, string mimeType, byte[] binary)
-        //{
-        //    await SaveThumbAsync(thumbFilePath, thumbFileName, mimeType, binary);
-        //}
-
-        protected virtual async Task DeletePictureThumbsAsync(Picture picture)
+        protected virtual async Task DeletePictureAsync(Picture picture)
         {
             //create a string containing the blob name prefix
             var prefix = $"{picture.SeoFilename:0000000}";
@@ -93,33 +82,16 @@ namespace PhoneStore.Services.Pictures
             while (continuationToken != null);
         }
 
-        //protected virtual async Task<bool> GeneratedThumbExistsAsync(string thumbFilePath, string thumbFileName)
-        //{
-        //    try
-        //    {
-        //        //GetBlockBlobReference doesn't need to be async since it doesn't contact the server yet
-        //        var blockBlob = _container.GetBlockBlobReference(thumbFileName);
-
-        //        return await blockBlob.ExistsAsync();
-        //    }
-        //    catch { return false; }
-        //}
-
-        protected virtual async Task SaveThumbAsync(string thumbFileName, string mimeType, byte[] binary)
+        protected virtual async Task SavePictureAsync(string pictureFileName, string mimeType, byte[] binary)
         {
             //GetBlockBlobReference doesn't need to be async since it doesn't contact the server yet
-            var blockBlob = _container.GetBlockBlobReference(thumbFileName);
+            var blockBlob = _container.GetBlockBlobReference(pictureFileName);
 
             //set mime type
             if (!string.IsNullOrEmpty(mimeType))
                 blockBlob.Properties.ContentType = mimeType;
 
-            //set cache control
-            //if (!string.IsNullOrEmpty(_mediaSettings.AzureCacheControlHeader))
-            //    blockBlob.Properties.CacheControl = _mediaSettings.AzureCacheControlHeader;
-
             await blockBlob.UploadFromByteArrayAsync(binary, 0, binary.Length);
-            
         }
     }
 }

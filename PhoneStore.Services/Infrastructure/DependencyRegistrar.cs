@@ -16,8 +16,6 @@ namespace PhoneStore.Services.Infrastructure
 {
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public int Order => 100;
-
         public void Register(ContainerBuilder builder, IServiceCollection services, IConfiguration configuration)
         {
             if (configuration["ENVIRONMENT"].Contains("Production"))

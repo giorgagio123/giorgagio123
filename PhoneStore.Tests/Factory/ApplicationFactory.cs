@@ -21,7 +21,6 @@ namespace PhoneStore.Tests.Factory
                 var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("testing");
 
                 b.AddSingleton<ApplicationDbContext>(x => new ApplicationDbContext(options.Options));
-                //b.AddScoped(typeof(IRepository<Product>), typeof(Mock<IRepository<Product>>));
             });
 
             base.ConfigureWebHost(builder);

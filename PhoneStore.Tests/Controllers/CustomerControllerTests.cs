@@ -26,9 +26,8 @@ namespace PhoneStore.Tests.Controllers
         }
 
         [Fact]
-        public void AddCategory_ShouldAddNewCategory_ToDatabase()
+        public void AddProduct_ShouldAddNewProduct_ToDatabase()
         {
-
             var newProduct = new Product { Name = "TEST" };
 
             _productService.InsertProduct(newProduct);

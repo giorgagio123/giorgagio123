@@ -50,6 +50,11 @@ namespace PhoneStore.Services.Products
                     query = query.Where(p => p.Storage == model.Storage);
                 }
 
+                if (!string.IsNullOrEmpty(model.Name))
+                {
+                    query = query.Where(p => p.Name.Contains(model.Name));
+                }
+
                 if (model.ToPrice.HasValue)
                 {
                     query = query.Where(p => p.Price < model.ToPrice);

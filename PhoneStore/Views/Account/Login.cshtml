@@ -2,7 +2,7 @@
 @{
     var returnUrl = Context.Request.Query["ReturnUrl"];
 }
-
+@Html.ValidationSummary(false, string.Empty, new { @class = "text-danger" })
 <form asp-controller="Account" asp-action="Login" method="post" asp-route-returnurl="@returnUrl">
     <div>
         <input asp-for="UserName" class="text-regular" type="text" autofocus="autofocus" placeholder="UserName" id="login-email" />

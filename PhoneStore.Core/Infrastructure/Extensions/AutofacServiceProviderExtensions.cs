@@ -56,10 +56,8 @@ namespace PhoneStore.Core.Infrastructure.Extensions
                     }
                 }
             }
-            
-            var instances = result
-                .Select(dependencyRegistrar => (IDependencyRegistrar)Activator.CreateInstance(dependencyRegistrar))
-                .OrderBy(dependencyRegistrar => dependencyRegistrar.Order);
+
+            var instances = result.Select(dependencyRegistrar => (IDependencyRegistrar)Activator.CreateInstance(dependencyRegistrar));
 
             foreach (var dependencyRegistrar in instances)
                 dependencyRegistrar.Register(containerBuilder, services, configuration);

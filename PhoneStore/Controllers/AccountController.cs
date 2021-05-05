@@ -55,6 +55,8 @@ namespace PhoneStore.Controllers
                 {
                     ModelState.AddModelError("", error.Description);
                 }
+
+                return View(model);
             }
 
             if (!await _accountService.RoleExistsAsync(UserRoles.User))
@@ -62,7 +64,7 @@ namespace PhoneStore.Controllers
 
             await _accountService.AddToRoleAsync(user, UserRoles.User);
 
-            return View();
+            return RedirectToAction(nameof(Login));
         }
 
         [HttpPost]
@@ -80,13 +82,6 @@ namespace PhoneStore.Controllers
                 };
 
                 var result = await _accountService.CreateUserAsync(user, adminPassword);
-                //if (!result.Succeeded)
-                //{
-                //    foreach (var error in result.Errors)
-                //    {
-                //        ModelState.AddModelError("", error.Description);
-                //    }
-                //}
 
                 if (!await _accountService.RoleExistsAsync(UserRoles.Admin))
                     await _accountService.CreateRoleAsync(new IdentityRole(UserRoles.Admin));

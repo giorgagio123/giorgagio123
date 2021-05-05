@@ -37,9 +37,6 @@ namespace PhoneStore.Controllers
         [HttpPost]
         public virtual IActionResult AsyncUpload(int? id)
         {
-            //if (!_permissionService.Authorize(StandardPermissionProvider.UploadPictures))
-            //    return Json(new { success = false, error = "You do not have required permissions" }, "text/plain");
-
             var httpPostedFile = Request.Form.Files.FirstOrDefault();
             if (httpPostedFile == null)
             {
@@ -52,13 +49,8 @@ namespace PhoneStore.Controllers
             }
 
             var fileBinary = httpPostedFile.GetDownloadBits();
-
-            var qqFileNameParameter = "qqfilename";
+            
             var fileName = httpPostedFile.FileName;
-            if (string.IsNullOrEmpty(fileName) && Request.Form.ContainsKey(qqFileNameParameter))
-                fileName = Request.Form[qqFileNameParameter].ToString();
-            //remove path (passed in IE)
-            fileName = Path.GetFileName(fileName);
 
             var contentType = httpPostedFile.ContentType;
 
@@ -101,8 +93,6 @@ namespace PhoneStore.Controllers
 
             var picture = _pictureService.InsertPicture(fileBinary, contentType, fileName, id);
             
-            //when returning JSON the mime-type must be set to text/plain
-            //otherwise some browsers will pop-up a "Save As" dialog.
             return Json(new
             {
                 success = true,

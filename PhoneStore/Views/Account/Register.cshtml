@@ -1,5 +1,6 @@
 ﻿@model PhoneStore.Models.Account.RegisterModel
 
+@Html.ValidationSummary(false, string.Empty, new { @class = "text-danger" })
 <form asp-controller="Account" asp-action="Register" method="post">
     <div>
         <input asp-for="UserName" class="text-regular" type="text" autofocus="autofocus" placeholder="UserName" id="login-email" />
