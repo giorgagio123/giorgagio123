@@ -13,7 +13,7 @@ namespace PhoneStore.Services.Products
 
         Product GetProductById(int productId);
 
-        (Product product, bool? hasProduct) GetProductByIdForCustomer(int productId);
+        (Product product, bool? hasProduct) GetProductByIdForCustomer(int productId, string userRole = UserRoles.Admin);
 
         void InsertProduct(Product product);
 

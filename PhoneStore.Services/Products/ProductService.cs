@@ -93,13 +93,13 @@ namespace PhoneStore.Services.Products
             _productRepository.Insert(product);
         }
 
-        public virtual (Product product, bool? hasProduct) GetProductByIdForCustomer(int productId)
+        public virtual (Product product, bool? hasProduct) GetProductByIdForCustomer(int productId, string userRole = UserRoles.Admin)
         {
             if (productId == 0)
                 return (null, null);
-
+            
             var product = _productRepository.Table.Include(p => p.Pictures).FirstOrDefault(p => p.Id == productId && 
-            (p.UserId == _accountService.GetUserId() || _accountService.IsInRole(UserRoles.Admin)));
+            (p.UserId == _accountService.GetUserId() || _accountService.IsInRole(userRole)));
             
             return (product, product != null ? true : false);
         }

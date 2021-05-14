@@ -22,7 +22,7 @@ namespace PhoneStore.Services.Pictures
         private readonly IHostingEnvironment _hostingEnvironment;
         protected readonly WebHelper _webHelper;
 
-        public PictureService(IRepository<Picture> pictureRepository, ApplicationDbContext context, IHostingEnvironment hostingEnvironment,
+        public PictureService(IRepository<Picture> pictureRepository, IHostingEnvironment hostingEnvironment,
             WebHelper webHelper)
         {
             _pictureRepository = pictureRepository;
@@ -103,7 +103,6 @@ namespace PhoneStore.Services.Pictures
 
             //delete from database
             _pictureRepository.Delete(picture);
-            
         }
 
         public virtual IList<Picture> GetPicturesByProductId(int productId, int recordsToReturn = 0)
@@ -121,9 +120,7 @@ namespace PhoneStore.Services.Pictures
             return pics;
         }
 
-        public virtual Picture InsertPicture(byte[] pictureBinary, string mimeType, string seoFilename, int? productId,
-            string altAttribute = null, string titleAttribute = null,
-            bool isNew = true)
+        public virtual Picture InsertPicture(byte[] pictureBinary, string mimeType, string seoFilename, int? productId, bool isNew = true)
         {
             var picture = new Picture
             {

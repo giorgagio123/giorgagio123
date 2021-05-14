@@ -20,8 +20,8 @@ namespace PhoneStore.Services.Pictures
         private static CloudBlobContainer _container;
         private readonly IConfiguration _configuration;
         
-        public AzurePictureService(IRepository<Picture> pictureRepository, ApplicationDbContext context, IHostingEnvironment hostingEnvironment, IConfiguration configuration, WebHelper webHelper)
-            : base(pictureRepository, context, hostingEnvironment, webHelper)
+        public AzurePictureService(IRepository<Picture> pictureRepository, IHostingEnvironment hostingEnvironment, IConfiguration configuration, WebHelper webHelper)
+            : base(pictureRepository, hostingEnvironment, webHelper)
         {
             _configuration = configuration;
             CreateCloudBlobContainer();

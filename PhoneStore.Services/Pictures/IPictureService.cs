@@ -13,9 +13,7 @@ namespace PhoneStore.Services.Pictures
 
         IList<Picture> GetPicturesByProductId(int productId, int recordsToReturn = 0);
 
-        Picture InsertPicture(byte[] pictureBinary, string mimeType, string seoFilename, int? productId,
-            string altAttribute = null, string titleAttribute = null,
-            bool isNew = true);
+        Picture InsertPicture(byte[] pictureBinary, string mimeType, string seoFilename, int? productId, bool isNew = true);
 
         Picture GetPictureById(int pictureId);
 

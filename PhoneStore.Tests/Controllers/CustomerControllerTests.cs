@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using PhoneStore.Core.Domain;
@@ -19,16 +20,16 @@ namespace PhoneStore.Tests.Controllers
 
         public CustomerControllerTests(ApplicationFactory<Startup> fixture)
         {
-            var xui = fixture.CreateClient();
+            var client = fixture.CreateClient();
             var db = fixture.Server.Host.Services.GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
+
             _productService = new ProductService(new EfRepository<Product>(db), new Mock<IAccountService>().Object);
-            //_productService = new Mock<IProductService>().Object;
         }
 
         [Fact]
         public void AddProduct_ShouldAddNewProduct_ToDatabase()
         {
-            var newProduct = new Product { Name = "TEST" };
+            var newProduct = new Product { Id = 6, Name = "TEST" };
 
             _productService.InsertProduct(newProduct);
             //assert
